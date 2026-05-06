@@ -113,22 +113,7 @@ const ARViewer: React.FC<ARViewerProps> = ({ onNavigate }) => {
   const squishContinuousAudio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Squeeze ASMR (Satisfying spongy squish)
-    squeezeAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2567/2567-preview.mp3');
-    squeezeAudio.current.volume = 0.8;
-    
-    // Release ASMR (Soft release)
-    releaseAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
-    releaseAudio.current.volume = 0.4;
 
-    // Attraction sound
-    attractAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2550/2550-preview.mp3'); 
-    attractAudio.current.volume = 0.15;
-
-    // Continuous squish (loopable or satisfying long one)
-    squishContinuousAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
-    squishContinuousAudio.current.volume = 0.3;
-    squishContinuousAudio.current.loop = true;
 
     // Device Orientation Handler (Spatial Scene)
     const handleOrientation = (e: DeviceOrientationEvent) => {
