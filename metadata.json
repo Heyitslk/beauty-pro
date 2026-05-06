@@ -1,0 +1,7 @@
+{
+  "name": "Beauty Pro",
+  "description": "The ultimate AI-powered beauty assistant and 3D sponge guide.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+}
+
+:root {
+  --brand-pink: #ec4899;
+  --brand-rose: #f43f5e;
+  --brand-pearl: #fff5f7;
+}
+
+body { 
+  font-family: var(--font-sans); 
+  background: radial-gradient(circle at top left, #fff5f7 0%, #fff 100%);
+}
+
+h1, h2, h3, .brand { 
+  font-family: var(--font-serif); 
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.float { 
+  animation: float 6s ease-in-out infinite; 
+}
