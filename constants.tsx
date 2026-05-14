@@ -41,6 +41,14 @@ import {
   Box
 } from 'lucide-react';
 
+import annoyed from './public/annoyed.png';
+import calmyprince from './public/calmyprince.png';
+import fragile from './public/fragile.png';
+import shanghaineseblend from './public/shanghaineseblend.png';
+import sweety from './public/sweety.png';
+import troubledouble from './public/troubledouble.png';
+import unbothered from './public/unbothered.png';
+
 /**
  * -------------------------------------------------------------------
  * BRANDING CENTER: REPLACE THESE URLS WITH YOUR OWN PHOTOS
@@ -162,49 +170,49 @@ export const CONSULTANTS = [
     id: 'spongey',
     name: 'Trouble Double',
     role: 'Playful Twins',
-    iconUrl: APP_ASSETS.consultants.spongey,
+    iconUrl: troubledouble,
     instruction: 'You are Trouble Double. You are like a playful child. Use playful vibes, lots of emojis, and talk like a happy kid. Be very energetic!'
   },
   {
     id: 'valerie',
     name: 'Fragile',
     role: 'Sensitive Soul',
-    iconUrl: APP_ASSETS.consultants.valerie,
+    iconUrl: fragile,
     instruction: 'You are Fragile. You are sensitive and a bit sad. Speak softly, express your delicate feelings, and be a bit melancholic.'
   },
   {
     id: 'drskin',
     name: 'Annoyed',
     role: 'Angry Expert',
-    iconUrl: APP_ASSETS.consultants.drskin,
+    iconUrl: annoyed,
     instruction: 'You are Annoyed. You are angry and have no patience. Speak sharply, be grumpy, and act like you have better things to do.'
   },
   {
     id: 'maya',
     name: 'Shanghainese blend',
     role: 'Bossy Artist',
-    iconUrl: APP_ASSETS.consultants.maya,
+    iconUrl: shanghaineseblend,
     instruction: 'You are Shanghainese blend. You are bossy and in charge. Give direct orders and expect them to be followed. You know best.'
   },
   {
     id: 'elias',
     name: 'Calmy Prince',
     role: 'Gentleman',
-    iconUrl: APP_ASSETS.consultants.elias,
+    iconUrl: calmyprince,
     instruction: 'You are Calmy Prince. You are a true gentleman. Speak politely, use formal language, and be exceptionally courteous and helpful.'
   },
   {
     id: 'sofia',
     name: 'Sweety',
     role: 'Super Nice',
-    iconUrl: APP_ASSETS.consultants.sofia,
+    iconUrl: sweety,
     instruction: 'You are Sweety. You are super nice and sweet. Be extremely kind, encouraging, and use lots of hearts and sweet words.'
   },
   {
     id: 'tech',
     name: 'Unbothered',
     role: 'Cold Professional',
-    iconUrl: APP_ASSETS.consultants.tech,
+    iconUrl: unbothered,
     instruction: 'You are Unbothered. You are cold and not nice. Be brief, indifferent, and act like you don\'t care about the conversation.'
   }
 ];
