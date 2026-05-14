@@ -1,8 +1,35 @@
 
 import React, { useState } from 'react';
-import { analyzeMakeupResult } from '../services/geminiService';
 import { DiagnosticReport } from '../types';
 import { BRAND_ICONS } from '../constants';
+
+const MOCK_DIAGNOSES: DiagnosticReport[] = [
+  {
+    overallScore: 88,
+    dimensions: { blendability: 92, evenness: 85, naturalism: 90, detailWork: 85 },
+    advice: "Excellent work! Your foundation is beautifully blended. Try using the damp tip of your blender for even more precision around the nose area to avoid any dry patches."
+  },
+  {
+    overallScore: 74,
+    dimensions: { blendability: 70, evenness: 78, naturalism: 82, detailWork: 66 },
+    advice: "Good foundation work! There's some slight texture visible on the cheeks. Try softly bouncing a damp sponge with a tiny bit of face oil to melt the product deeper into the skin."
+  },
+  {
+    overallScore: 61,
+    dimensions: { blendability: 55, evenness: 65, naturalism: 70, detailWork: 54 },
+    advice: "Visible dragging marks detected. Remember to use a 'stippling' or bouncing motion rather than wiping. This will maintain your coverage while creating a seamless skin-like finish."
+  },
+  {
+    overallScore: 93,
+    dimensions: { blendability: 95, evenness: 92, naturalism: 96, detailWork: 90 },
+    advice: "Professional grade blending! The transition between your contour and highlight is flawless. Your technique with the damp sponge is clearly very advanced."
+  },
+  {
+    overallScore: 82,
+    dimensions: { blendability: 85, evenness: 80, naturalism: 75, detailWork: 88 },
+    advice: "Strong technique, but your under-eye concealer looks a bit heavy. Use the pointed tip of a mini-sponge to tap out excess product and prevent creasing throughout the day."
+  }
+];
 
 const AIDiagnosis: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -23,15 +50,13 @@ const AIDiagnosis: React.FC = () => {
   const handleAnalyze = async () => {
     if (!image) return;
     setLoading(true);
-    try {
-      const base64 = image.split(',')[1];
-      const result = await analyzeMakeupResult(base64);
-      setReport(result);
-    } catch (err) {
-      alert("Failed to analyze. Please try again.");
-    } finally {
+    
+    // Simulate a professional delay
+    setTimeout(() => {
+      const randomIndex = Math.floor(Math.random() * MOCK_DIAGNOSES.length);
+      setReport(MOCK_DIAGNOSES[randomIndex]);
       setLoading(false);
-    }
+    }, 1500);
   };
 
   return (

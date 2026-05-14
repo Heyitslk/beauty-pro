@@ -66,6 +66,50 @@ const AIConsultant: React.FC = () => {
   const chatFileInputRef = useRef<HTMLInputElement>(null);
   const [pendingImage, setPendingImage] = useState<string | null>(null);
 
+  const CACHED_QUESTIONS = [
+    "hi",
+    "how are you",
+    "how to use beauty blender"
+  ];
+
+  const CACHED_RESPONSES: Record<string, Record<string, string>> = {
+    spongey: {
+      "hi": "HIIIIII!!! OMG I'm so happy to see you! Ready to play with some makeup? Let's sparkle! ✨✨",
+      "how are you": "I'm SUPER DUPER GREAT! Just bouncing around like a little ball of energy! WHEEEEEE! 🎈🍭",
+      "how to use beauty blender": "First you go SQUISH SQUISH in the water, then you go BOUNCE BOUNCE on your face! It's like a tiny trampoline for your foundation! 🌈🎨"
+    },
+    valerie: {
+      "hi": "Oh... hi there. I didn't see you... I was just thinking about how soft everything is... 🌸",
+      "how are you": "I'm... okay, I guess. A bit tired. The world feels very loud today, doesn't it? ☁️",
+      "how to use beauty blender": "Please be very gentle with it... dampen it softly, and just pat your skin like you're comforting a small bird... 🕊️✨"
+    },
+    drskin: {
+      "hi": "Yeah, yeah, hi. Don't waste my time, I have a million things to do. 🙄",
+      "how are you": "Annoyed! Obviously! I just told you I'm busy. What do you want? 💢",
+      "how to use beauty blender": "Are you serious? You just wet it, squeeze it, and bounce it. It's not rocket science, use your brain for once! 😤"
+    },
+    maya: {
+      "hi": "Listen up! I'm here now, so pay attention if you want to look decent. 💅",
+      "how are you": "I'm in charge, as usual. Now, what's your problem? Speak up! 👠",
+      "how to use beauty blender": "Dampen it, squeeze out the excess (do it RIGHT), and use a stippling motion. Don't drag it, or you'll ruin everything I'm teaching you! 📐"
+    },
+    elias: {
+      "hi": "Good day to you, dear guest. It is an absolute pleasure to make your acquaintance. 🎩",
+      "how are you": "I am doing quite well, thank you for your kind inquiry. How are you faring today? ☕",
+      "how to use beauty blender": "One must simply moisten the sponge with pure water, gently compress it, and then apply your cosmetics with a delicate patting movement. Elegance is key. ✨"
+    },
+    sofia: {
+      "hi": "Hiiiii sweety! You look absolutely radiant today! How can I help you sparkle even more? ❤️💖",
+      "how are you": "I'm doing wonderful now that you're here! You're such a sweetheart for asking! 🥰🍭",
+      "how to use beauty blender": "Oh honey, it's so easy! Just give your little sponge a warm hug with some water, then soft little kisses on your skin with your foundation! 💋✨"
+    },
+    tech: {
+      "hi": "Hi. 😶",
+      "how are you": "Fine. Whatever. 🧊",
+      "how to use beauty blender": "Wet it. Squeeze it. Bounce it. Done. 📉"
+    }
+  };
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -100,10 +144,10 @@ const AIConsultant: React.FC = () => {
     }]);
   };
 
-  const handleSend = async () => {
-    if ((!input.trim() && !pendingImage) || isTyping) return;
+  const handleSend = async (overrideMessage?: string) => {
+    if ((!input.trim() && !pendingImage && !overrideMessage) || isTyping) return;
 
-    const userMessage = input.trim();
+    const userMessage = (overrideMessage || input).trim();
     const currentImage = pendingImage;
     
     setInput('');
@@ -115,6 +159,18 @@ const AIConsultant: React.FC = () => {
       image: currentImage || undefined
     }]);
     setIsTyping(true);
+
+    // Check for cached responses first
+    const cleanMsg = userMessage.toLowerCase().replace(/[?.,!]/g, '').trim();
+    const charResponses = CACHED_RESPONSES[selectedChar?.id || ''];
+    
+    if (charResponses && charResponses[cleanMsg]) {
+      setTimeout(() => {
+        setMessages(prev => [...prev, { role: 'model', text: charResponses[cleanMsg] }]);
+        setIsTyping(false);
+      }, 600);
+      return;
+    }
 
     try {
       // Prepare history for multi-modal support
@@ -341,6 +397,19 @@ const AIConsultant: React.FC = () => {
           accept="image/*" 
           onChange={handleChatImageUpload} 
         />
+
+        {/* Suggested Questions */}
+        <div className="max-w-4xl mx-auto mb-6 flex flex-wrap gap-2">
+          {CACHED_QUESTIONS.map((q, idx) => (
+            <button
+              key={idx}
+              onClick={() => handleSend(q)}
+              className="px-4 py-2 bg-pink-50 hover:bg-pink-100 text-pink-600 rounded-full text-xs md:text-sm font-medium transition-all border border-pink-100 shadow-sm hover:shadow active:scale-95"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
         
         {pendingImage && (
           <div className="max-w-4xl mx-auto mb-4 relative inline-block">
@@ -373,7 +442,7 @@ const AIConsultant: React.FC = () => {
               className="w-full p-4 md:p-6 pr-14 md:pr-20 bg-gray-50 border-none rounded-2xl md:rounded-[30px] focus:ring-4 focus:ring-pink-100 outline-none text-sm md:text-lg transition-all placeholder:text-gray-400 shadow-inner"
             />
             <button 
-              onClick={handleSend}
+              onClick={() => handleSend()}
               disabled={(!input.trim() && !pendingImage) || isTyping}
               className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 p-3 md:p-4 bg-pink-600 text-white rounded-xl md:rounded-[24px] hover:bg-pink-700 disabled:opacity-30 transition-all shadow-lg active:scale-95 flex items-center justify-center shrink-0"
             >

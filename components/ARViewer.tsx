@@ -2,13 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'motion/react';
 import { BRAND_ICONS, NAV_ITEMS } from '../constants';
 
-import home from '../public/homepage.jpg';
-import ailab from '../public/ailab.jpg';
-import sanctuary from '../public/sanctuary.jpg';
-import social from '../public/social.jpg';
-import experts from '../public/experts.jpg';
-
-
 // Internal types for the zones
 interface Zone {
   id: string;
@@ -25,7 +18,7 @@ const ZONES: Zone[] = [
     label: 'Home', 
     angle: 45, 
     color: '#FFB7C5', 
-    image: home,
+    image: 'input_file_0.png',
     description: 'The entrance to the Beauty Pro experience.'
   },
   { 
@@ -33,7 +26,7 @@ const ZONES: Zone[] = [
     label: 'Experts', 
     angle: 70, 
     color: '#FFE5B4', 
-    image: experts,
+    image: 'input_file_1.png',
     description: 'Consult with our animated IP masters.'
   },
   { 
@@ -41,7 +34,7 @@ const ZONES: Zone[] = [
     label: 'AI Lab', 
     angle: 90, 
     color: '#E0B0FF', 
-    image: ailab,
+    image: 'input_file_3.png',
     description: 'Advanced diagnosis and AI editor stations.'
   },
   { 
@@ -49,7 +42,7 @@ const ZONES: Zone[] = [
     label: 'Sanctuary', 
     angle: 110, 
     color: '#B0E0E6', 
-    image: sanctuary,
+    image: 'input_file_2.png',
     description: 'A space for hygiene, rhythm, and zen.'
   },
   { 
@@ -57,7 +50,7 @@ const ZONES: Zone[] = [
     label: 'Social', 
     angle: 135, 
     color: '#C1FFC1', 
-    image: social,
+    image: 'input_file_4.png',
     description: 'Connect and capture your beauty journey.'
   },
 ];
@@ -117,10 +110,19 @@ const ARViewer: React.FC<ARViewerProps> = ({ onNavigate }) => {
   const squeezeAudio = useRef<HTMLAudioElement | null>(null);
   const releaseAudio = useRef<HTMLAudioElement | null>(null);
   const attractAudio = useRef<HTMLAudioElement | null>(null);
-  const squishContinuousAudio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    // Squeeze ASMR (Satisfying spongy squish)
+    squeezeAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2567/2567-preview.mp3');
+    squeezeAudio.current.volume = 0.5;
+    
+    // Release ASMR (Soft release)
+    releaseAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
+    releaseAudio.current.volume = 0.3;
 
+    // Attraction sound
+    attractAudio.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2550/2550-preview.mp3'); 
+    attractAudio.current.volume = 0.1;
 
     // Device Orientation Handler (Spatial Scene)
     const handleOrientation = (e: DeviceOrientationEvent) => {
@@ -133,7 +135,13 @@ const ARViewer: React.FC<ARViewerProps> = ({ onNavigate }) => {
     };
 
     window.addEventListener('deviceorientation', handleOrientation);
-    return () => window.removeEventListener('deviceorientation', handleOrientation);
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation);
+      // Stop all sounds on unmount
+      squeezeAudio.current?.pause();
+      releaseAudio.current?.pause();
+      attractAudio.current?.pause();
+    };
   }, [isTransitioning, isInSpatialScene, tiltX, tiltY]);
 
   const playSqueezeSound = () => {
@@ -177,11 +185,6 @@ const ARViewer: React.FC<ARViewerProps> = ({ onNavigate }) => {
     setInteractionState('pressing');
     setPressure(0.3);
     playSqueezeSound();
-    
-    if (squishContinuousAudio.current) {
-        squishContinuousAudio.current.currentTime = 0;
-        squishContinuousAudio.current.play().catch(() => {});
-    }
     
     window.navigator?.vibrate?.(10);
   };
@@ -289,9 +292,6 @@ const ARViewer: React.FC<ARViewerProps> = ({ onNavigate }) => {
     if (isTransitioning || isInSpatialScene) return;
     if (interactionState !== 'idle') {
       playReleaseSound();
-    }
-    if (squishContinuousAudio.current) {
-        squishContinuousAudio.current.pause();
     }
     setInteractionState('idle');
     setPressure(0);
