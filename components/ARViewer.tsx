@@ -2,6 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'motion/react';
 import { BRAND_ICONS, NAV_ITEMS } from '../constants';
 
+import home from '../public/homepage.jpg';
+import ailab from '../public/ailab.jpg';
+import sanctuary from '../public/sanctuary.jpg';
+import social from '../public/social.jpg';
+import experts from '../public/experts.jpg';
+
 // Internal types for the zones
 interface Zone {
   id: string;
@@ -18,7 +24,7 @@ const ZONES: Zone[] = [
     label: 'Home', 
     angle: 45, 
     color: '#FFB7C5', 
-    image: 'input_file_0.png',
+    image: home,
     description: 'The entrance to the Beauty Pro experience.'
   },
   { 
@@ -26,7 +32,7 @@ const ZONES: Zone[] = [
     label: 'Experts', 
     angle: 70, 
     color: '#FFE5B4', 
-    image: 'input_file_1.png',
+    image: experts,
     description: 'Consult with our animated IP masters.'
   },
   { 
@@ -34,7 +40,7 @@ const ZONES: Zone[] = [
     label: 'AI Lab', 
     angle: 90, 
     color: '#E0B0FF', 
-    image: 'input_file_3.png',
+    image: ailab,
     description: 'Advanced diagnosis and AI editor stations.'
   },
   { 
@@ -42,7 +48,7 @@ const ZONES: Zone[] = [
     label: 'Sanctuary', 
     angle: 110, 
     color: '#B0E0E6', 
-    image: 'input_file_2.png',
+    image: sanctuary,
     description: 'A space for hygiene, rhythm, and zen.'
   },
   { 
@@ -50,7 +56,7 @@ const ZONES: Zone[] = [
     label: 'Social', 
     angle: 135, 
     color: '#C1FFC1', 
-    image: 'input_file_4.png',
+    image: social,
     description: 'Connect and capture your beauty journey.'
   },
 ];
